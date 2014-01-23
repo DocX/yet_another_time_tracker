@@ -48,6 +48,12 @@ group :test do
 	gem 'cucumber-rails'
 end
 
-gem 'mongoid'
+gem 'bson_ext'
 
+gem 'mongoid', "~> 4.beta"
 
+gem 'bootstrap-sass', '~> 3.0.3.0'
+
+gem 'haml'
+
+gem 'angularjs-rails'
