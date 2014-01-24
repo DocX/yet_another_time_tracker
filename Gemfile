@@ -43,9 +43,11 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
-group :test do
+group :test, :development do
 	gem 'rspec-rails'
-	gem 'cucumber-rails'
+	gem 'cucumber-rails', :require => false
+  gem 'database_cleaner'
+  gem 'capybara'
 end
 
 gem 'bson_ext'
