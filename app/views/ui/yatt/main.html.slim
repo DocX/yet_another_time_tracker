@@ -1,0 +1,57 @@
+doctype html
+html ng-app='YATTApp'
+  head
+    title Time Heroic
+    meta name='viewport' content='width=device-width, initial-scale=1'
+    == stylesheet_link_tag    "ui/yatt", media: "all"
+    == javascript_include_tag "ui/yatt"
+    == csrf_meta_tags
+
+  body ng-controller='YATTController'
+    div.container
+      h1 Time Heroic
+      hr
+
+      div.jumbotron ng-controller='NowWorkingOnController'
+        h2 What are you going to do?
+        div.form-group.input-group ng-class='{"has-error": new_task_error}'
+          input.form-control.input-lg type='text' placeholder='#work #mega-project task 222 4h' ng-model='new_task' ng-enter='enter_new_task()' ng-keydown='new_task_error = false'
+          span.input-group-btn
+            button.btn.btn-danger.input-lg ng-click='stop_current_task()' Nothing
+
+        div ng-if='current_task.id != null'
+          h2 Now working on
+          p
+            span ng-repeat='tag in current_task.tags'
+              span.label.label-primary
+                | {{tag}}
+              '
+            ' {{current_task.name}}
+            span.pull-right ng-class='{"text-warning": current_task.estimated_seconds - current_task_elapsed_seconds <= 0 }'
+              ' {{ current_task.estimated_seconds - current_task_elapsed_seconds > 0 ? 'Remaining' : 'Overdue'}}
+              strong
+                | {{ current_task_elapsed_seconds - current_task.estimated_seconds | humanizeSeconds }}
+              '  / {{current_task.estimated_seconds | humanizeSeconds}}
+
+      div ng-controller='TodayTasksController'
+        h2 Today's history
+        table.table
+          thead
+            tr
+              th Task
+              th.text-right Time
+              th.text-right Duration
+          tr ng-repeat='time in today_times'
+            td
+              span ng-repeat='tag in time.task.tags'
+                span.label.label-primary
+                  | {{tag}}
+                '
+              ' {{time.task.name}}
+            td.text-right
+              | {{time.start | date:"shortTime"}} - {{time.end | date:"shortTime"}}
+            td.text-right ng-class='{"text-success": elapsed_seconds(time) <= time.task.estimated_seconds, "text-danger": elapsed_seconds(time) > time.task.estimated_seconds }'
+              | {{ elapsed_seconds(time) | humanizeSeconds }} / {{time.task.estimated_seconds | humanizeSeconds }}
+
+
+

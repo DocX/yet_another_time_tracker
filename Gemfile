@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0.beta1'
 
+gem 'rails-api'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc1'
 
@@ -59,3 +61,5 @@ gem 'bootstrap-sass', '~> 3.0.3.0'
 gem 'slim'
 
 gem 'angularjs-rails'
+
+gem 'mongoid-tags-arent-hard'
