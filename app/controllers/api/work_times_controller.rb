@@ -18,7 +18,7 @@ class Api::WorkTimesController < APIController
         json.end time.end
         json.task do
           json.name  time.task.name
-          json.id time.task._id
+          json.id time.task._id.to_s
           json.estimated_seconds time.task.estimated_seconds
           json.tags time.task.tags
         end

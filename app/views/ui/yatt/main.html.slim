@@ -33,38 +33,41 @@ html ng-app='YATTApp'
                 | {{ current_task_elapsed_seconds - current_task.estimated_seconds | humanizeSeconds }}
               '  / {{current_task.estimated_seconds | humanizeSeconds}}
 
-      div ng-controller='TodayTasksController'
-        h2 Today's history
-        table.table
-          thead
-            tr
-              th Task
-              th.text-right Time
-              th.text-right Duration
-          tr ng-repeat='time in today_times'
-            td
-              span ng-repeat='tag in time.task.tags'
-                span.label.label-primary
-                  | {{tag}}
+      div.row
+        div.col-md-8 ng-controller='TodayTasksController'
+          h2 Today's history
+          table.table.table-hover
+            thead
+              tr
+                th Task
+                th.text-right Time
+                th.text-right Duration
+            tr ng-repeat='time in today_times'
+              td
+                span ng-repeat='tag in time.task.tags'
+                  span.label.label-primary
+                    | {{tag}}
+                  '
+                ' {{time.task.name}}
+              td.text-right
+                | {{time.start | date:"shortTime"}} - {{time.end | date:"shortTime"}}
+              td.text-right ng-class='{"text-success": elapsed_seconds(time) <= time.task.estimated_seconds, "text-danger": elapsed_seconds(time) > time.task.estimated_seconds }'
+                | {{ elapsed_seconds(time) | humanizeSeconds }} / {{time.task.estimated_seconds | humanizeSeconds }}
                 '
-              ' {{time.task.name}}
-            td.text-right
-              | {{time.start | date:"shortTime"}} - {{time.end | date:"shortTime"}}
-            td.text-right ng-class='{"text-success": elapsed_seconds(time) <= time.task.estimated_seconds, "text-danger": elapsed_seconds(time) > time.task.estimated_seconds }'
-              | {{ elapsed_seconds(time) | humanizeSeconds }} / {{time.task.estimated_seconds | humanizeSeconds }}
+                button.btn.btn-xs.btn-warning ng-click='resume_task(time.task)' Resume
 
-      div ng-controller='TodayTagTimesController'
-        h2 Today's tags
-        table.table
-          thead
-            tr
-              th Tag
-              th.text-right Spent time
-          tr ng-repeat='tag_time in time_by_tags | orderBy:"seconds":true'
-            td
-              span.label.label-primary
-                | {{tag_time.tag}}
-            td.text-right
-              | {{tag_time.seconds | humanizeSeconds}}
+        div.col-md-4 ng-controller='TodayTagTimesController'
+          h2 Today's tags
+          table.table
+            thead
+              tr
+                th Tag
+                th.text-right Spent time
+            tr ng-repeat='tag_time in time_by_tags | orderBy:"seconds":true'
+              td
+                span.label.label-primary
+                  | {{tag_time.tag}}
+              td.text-right
+                | {{tag_time.seconds | humanizeSeconds}}
 
 

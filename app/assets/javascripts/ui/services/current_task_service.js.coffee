@@ -5,7 +5,8 @@ angular.module('YATTApp').factory 'current_task', [
     $resource('/api/current_task/:action', {}, {
       get: {method: 'GET', params: {action: ''}},
       create: {method: 'POST', params: {action: ''}},
-      close: {method: 'DELETE', params:{action: ''}}
+      close: {method: 'DELETE', params:{action: ''}},
+      resume: {method: 'POST', params:{action: '@id'}}
       })
 
 ]

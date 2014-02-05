@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get '/', action: :show
       post '/', action: :create
       delete '/', action: :done
+      post '/:id', action: :resume
     end
 
     scope :work_times, controller: :work_times do

@@ -17,6 +17,14 @@ class Api::CurrentTaskController < APIController
     render :nothing => true
   end
 
+  def resume
+    @current_task = Task.find(params[:id])
+
+    @current_task.resume!
+
+    render :json => task_json
+  end
+
   protected
 
   def ensure_current_task
@@ -26,7 +34,7 @@ class Api::CurrentTaskController < APIController
 
   def task_json
     Jbuilder.encode do |json|
-      json.id @current_task._id
+      json.id @current_task._id.to_s
       json.name @current_task.name
       json.tags @current_task.tags
       json.work_times @current_task.work_times do |time|

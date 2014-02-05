@@ -31,5 +31,13 @@ class Task
   def close!
     work_times.where(:end => nil).update_all(end: DateTime.now)
   end
+
+  # closes all other tasks and makes this now current
+  def resume!
+    self.class.current.close! if self.class.current
+    self.work_times << TaskTime.create(start: DateTime.now)
+
+    self
+  end
 end
 

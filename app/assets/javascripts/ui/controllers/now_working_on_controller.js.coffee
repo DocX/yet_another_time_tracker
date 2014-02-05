@@ -31,9 +31,6 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
 
       task_obj.$save () ->
         $scope.refresh_all()
-        new_current_task = current_task.get () ->
-          $scope.current_task = new_current_task
-          set_current_task()
 
       $scope.new_task = ''
 
@@ -60,6 +57,12 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
       else
         $scope.current_task_elapsed_seconds  = null
       $scope.current_task
+
+    $scope.$on('yatt.refresh', () ->
+      current_task.get (new_current_task) ->
+        $scope.current_task = new_current_task
+        set_current_task()
+      )
 
     $scope.new_task = ''
     $scope.current_task = current_task.get () ->

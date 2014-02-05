@@ -91,4 +91,22 @@ describe Api::CurrentTaskController do
     end
   end
 
+  describe 'POST resume' do
+    it 'creates current task what was not current' do
+      t = Task.create_current(
+        name: 'test task resume',
+        tags: [],
+        estimated_seconds: 100
+      )
+
+      t.close!
+
+      post 'resume', {id: t._id}
+
+      response.should be_success
+      expect(Task.current).not_to be_nil
+      expect(Task.current._id).to eq(t._id)
+    end
+  end
+
 end
