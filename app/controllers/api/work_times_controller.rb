@@ -2,7 +2,7 @@ class Api::WorkTimesController < APIController
 
   def today
     # all tasks with work time today
-    @times = TaskTime.where(:start.lte => DateTime.now.to_date+1, :end.gte => DateTime.now.to_date)
+    @times = TaskTime.today
     @times = @times.desc(:end).to_a
 
     render :json => times_json

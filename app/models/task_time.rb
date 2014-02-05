@@ -5,4 +5,8 @@ class TaskTime
   field :end, type: DateTime
   belongs_to :task, inverse_of: :work_times
 
+  scope :today, ->() do
+    where(:start.lte => DateTime.now.to_date+1, :end.gte => DateTime.now.to_date)
+  end
+
 end

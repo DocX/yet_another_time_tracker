@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  namespace :api do
+  get "time_by_tags/today"
+  end
+
   root 'ui/yatt#main'
 
   namespace :ui do
