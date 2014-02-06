@@ -1,15 +1,14 @@
 Rails.application.routes.draw do
 
-  namespace :api do
-  get "time_by_tags/today"
-  end
+  devise_for :users
 
   root 'ui/yatt#main'
-
-  namespace :ui do
-  end
+  get '/account', to: 'ui/yatt#account'
+  get '/reports', to: 'ui/yatt#reports'
 
   namespace :api, :constraints => {format: 'json'} do
+    get "time_by_tags/today"
+
     scope :current_task, controller: :current_task do
       get '/', action: :show
       post '/', action: :create

@@ -63,3 +63,5 @@ gem 'slim'
 gem 'angularjs-rails'
 
 gem 'mongoid-tags-arent-hard'
+
+gem 'devise'

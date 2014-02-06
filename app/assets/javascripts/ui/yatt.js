@@ -1,6 +1,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require turbolinks
 //= require angular
 //= require angular-resource
 //= require ./yatt_app

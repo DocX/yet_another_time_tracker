@@ -68,6 +68,8 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
     $scope.current_task = current_task.get () ->
       set_current_task()
 
+    $('button[data-toggle=popover]').popover()
+
     return null
 
   ]
