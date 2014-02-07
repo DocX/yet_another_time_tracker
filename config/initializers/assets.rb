@@ -1,0 +1,1 @@
+Rails.application.config.assets.precompile += ['devise.css', 'ui/yatt.css', 'ui/yatt.js', 'devise.js']
