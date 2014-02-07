@@ -4,9 +4,9 @@ div ng-app='YATTApp' ng-controller='YATTController'
       == current_user.name.split(' ').first
       ' , what do you plan to do now?
     div.form-group.input-group ng-class='{"has-error": new_task_error}'
-      input.form-control.input-lg type='text' autofocus='autofocus' placeholder='#work #mega-project task 222 4h' ng-model='new_task' ng-enter='enter_new_task()' ng-keydown='new_task_error = false'
+      input.form-control.input-lg type='text' autofocus='autofocus' placeholder='#work #mega-project huge task 2d4h30m' ng-model='new_task' ng-enter='enter_new_task()' ng-keydown='new_task_error = false'
       span.input-group-btn
-        button.btn.btn-info.input-lg data-toggle='popover' data-placement='left' data-container="body" data-content='Enter what task you will do now and estimation of how long do you want to do it. Start with some tags marked by hashes to organize your task. After them, write brief description of your task. And at the end put how much time you would like to spend on it. After hitting Enter key, you will see how is you going.'
+        button.btn.btn-info.input-lg data-toggle='popover' data-placement='left' data-container="body" data-content='Enter what task you will do now and estimation of how long do you want to do it. Start with some tags marked by hashes to organize your task. After them, write brief description of your task. At the end put how much time you would like to spend on it. After pressing Enter key, you will see how are you going.'
           span.glyphicon.glyphicon-question-sign
 
     div ng-if='current_task.id != null'
