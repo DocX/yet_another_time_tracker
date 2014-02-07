@@ -18,16 +18,16 @@
             a href='/reports' Reports
           li.dropdown
             a.dropdown-toggle data-toggle='dropdown' href="#"
-              ' Lukáš Doležal
+              == current_user.name
               b.caret
 
             ul.dropdown-menu
               li
-                a href='/account' My account
+                a href='/users/edit' My account
               li
-                a href='/logout' Logout
+                a href='/users/sign_out' Logout
 
-  div
+  div.container
     == yield
 
 == render template: 'layouts/application'

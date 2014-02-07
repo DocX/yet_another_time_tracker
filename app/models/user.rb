@@ -5,6 +5,11 @@ class User
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :tasks, :dependent => :destroy
+  has_many :work_times, :dependent => :destroy, class_name: 'TaskTime'
+
+  field :name, :type => String
+
   ## Database authenticatable
   field :email,              :type => String, :default => ""
   field :encrypted_password, :type => String, :default => ""

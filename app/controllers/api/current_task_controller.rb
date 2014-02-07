@@ -7,7 +7,7 @@ class Api::CurrentTaskController < APIController
   end
 
   def create
-    @current_task = Task.create_current(task_params)
+    @current_task = Task.create_current(current_user, task_params)
 
     render :json => task_json
   end
@@ -18,7 +18,7 @@ class Api::CurrentTaskController < APIController
   end
 
   def resume
-    @current_task = Task.find(params[:id])
+    @current_task = of_current_user(Task).find(params[:id])
 
     @current_task.resume!
 
@@ -28,7 +28,7 @@ class Api::CurrentTaskController < APIController
   protected
 
   def ensure_current_task
-    @current_task = Task.current
+    @current_task = Task.current current_user
     render status: :not_found, :nothing => true and return unless @current_task
   end
 

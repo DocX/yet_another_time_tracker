@@ -1,8 +1,10 @@
-div.container ng-app='YATTApp' ng-controller='YATTController'
+div ng-app='YATTApp' ng-controller='YATTController'
   div.jumbotron ng-controller='NowWorkingOnController'
-    h2 What are you going to do?
+    h2
+      == current_user.name.split(' ').first
+      ' , what are you going to do?
     div.form-group.input-group ng-class='{"has-error": new_task_error}'
-      input.form-control.input-lg type='text' placeholder='#work #mega-project task 222 4h' ng-model='new_task' ng-enter='enter_new_task()' ng-keydown='new_task_error = false'
+      input.form-control.input-lg type='text' autofocus='autofocus' placeholder='#work #mega-project task 222 4h' ng-model='new_task' ng-enter='enter_new_task()' ng-keydown='new_task_error = false'
       span.input-group-btn
         button.btn.btn-info.input-lg data-toggle='popover' data-placement='left' data-container="body" data-content='Start with few tags market by hashes, then enter task description and at the end put how many time you would like to spend on it.'
           span.glyphicon.glyphicon-question-sign

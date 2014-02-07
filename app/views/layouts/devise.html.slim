@@ -1,0 +1,19 @@
+- if user_signed_in?
+  == render template: 'layouts/ui/yatt'
+- else
+  doctype html
+  html
+    head
+      title Time Heroic
+      meta name='viewport' content='width=device-width, initial-scale=1'
+      == stylesheet_link_tag    "devise", media: "all", "data-turbolinks-track" => true
+      == javascript_include_tag "devise", "data-turbolinks-track" => true
+      == csrf_meta_tags
+
+    body
+      div.container
+        div.jumbotron
+          p.text-center Wellcome to
+          h1.text-center Time Heroic
+        div.well
+          == yield

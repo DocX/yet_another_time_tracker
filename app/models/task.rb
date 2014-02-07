@@ -8,21 +8,23 @@ class Task
   has_many :work_times, class_name: 'TaskTime', dependent: :destroy
   taggable_with :tags
 
+  belongs_to :user, :inverse_of => :tasks
+
   accepts_nested_attributes_for :work_times
 
-  def self.current
-    time = TaskTime.where(:end => nil).last
+  def self.current(user)
+    time = TaskTime.where(:user=> user, :end => nil).last
 
     return nil unless time
     time.task
   end
 
-  def self.create_current(attrs = {})
+  def self.create_current(user, attrs = {})
     # close all
-    TaskTime.where(:end => nil).set(:end => DateTime.now)
+    TaskTime.where(:user=> user, :end => nil).set(:end => DateTime.now)
 
-    t = Task.create(attrs)
-    t.work_times << TaskTime.create(start: DateTime.now)
+    t = Task.create(attrs.merge(:user => user))
+    t.work_times << TaskTime.create(start: DateTime.now, :user => user)
 
     t
   end
@@ -34,8 +36,8 @@ class Task
 
   # closes all other tasks and makes this now current
   def resume!
-    self.class.current.close! if self.class.current
-    self.work_times << TaskTime.create(start: DateTime.now)
+    self.class.current(self.user).close! if self.class.current(self.user)
+    self.work_times << TaskTime.create(start: DateTime.now, user: self.user)
 
     self
   end

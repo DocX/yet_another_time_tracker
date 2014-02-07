@@ -1,7 +1,7 @@
-class Api::TimeByTagsController < ApplicationController
+class Api::TimeByTagsController < APIController
   def today
     # get times today
-    @times = TaskTime.today.includes(:task)
+    @times = of_current_user TaskTime.today.includes(:task)
 
     @tags_times = {}
     @times.each do |time|
