@@ -4,7 +4,7 @@
   doctype html
   html
     head
-      title Time Heroic
+      title Time Heroic by Lukáš Doležal
       meta name='viewport' content='width=device-width, initial-scale=1'
       == stylesheet_link_tag    "devise", media: "all", "data-turbolinks-track" => true
       == javascript_include_tag "devise", "data-turbolinks-track" => true
@@ -14,6 +14,11 @@
       div.container
         div.jumbotron
           p.text-center Wellcome to
-          h1.text-center Time Heroic
+          h1.text-center
+            ' Time Heroic
+          p.text-center
+            i
+              small.text-danger alpha
+              small  by Lukáš Doležal
         div.well
           == yield

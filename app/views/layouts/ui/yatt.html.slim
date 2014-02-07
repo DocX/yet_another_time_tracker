@@ -2,30 +2,34 @@
   div.container
     nav.navbar.navbar-default role='navigation'
       div.container-fluid
-        button.navbar-toggle data-toggle='collapse' data-target='#yatt-main-nav'
-          span.sr-only Toggle main navigation
-          span.icon-bar
-          span.icon-bar
-          span.icon-bar
-        a.navbar-brand href='/'
-          ' Time Heroic
-          i
-            small.text-danger alpha
+        div.navbar-header
+          button.navbar-toggle data-toggle='collapse' data-target='#yatt-main-nav'
+            span.sr-only Toggle main navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          a.navbar-brand href='/'
+            ' Time Heroic
+            i
+              small.text-danger alpha
+              small  by Lukáš Doležal
 
-      div.collapse.navbar-collapse#yatt-main-nav
-        ul.nav.navbar-nav.navbar-right
-          li
-            a href='/reports' Reports
-          li.dropdown
-            a.dropdown-toggle data-toggle='dropdown' href="#"
-              == current_user.name
-              b.caret
+        div.collapse.navbar-collapse#yatt-main-nav
+          ul.nav.navbar-nav.navbar-right
+            li
+              a href='/about' About
+            li
+              a href='/reports' Reports
+            li.dropdown
+              a.dropdown-toggle data-toggle='dropdown' href="#"
+                == current_user.name
+                b.caret
 
-            ul.dropdown-menu
-              li
-                a href='/users/edit' My account
-              li
-                a href='/users/sign_out' Logout
+              ul.dropdown-menu
+                li
+                  a href='/users/edit' My account
+                li
+                  a href='/users/sign_out' Logout
 
   div.container
     == yield

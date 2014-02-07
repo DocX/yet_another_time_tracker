@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'ui/yatt#main'
-  get '/account', to: 'ui/yatt#account'
+  get '/about', to: 'ui/yatt#about'
   get '/reports', to: 'ui/yatt#reports'
 
   namespace :api, :constraints => {format: 'json'} do
