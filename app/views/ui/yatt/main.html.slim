@@ -33,7 +33,7 @@ div ng-app='YATTApp' ng-controller='YATTController'
           tr
             th Task
             th.text-right Time
-            th.text-right Duration
+            th.text-right Duration / Estimation
         tr ng-repeat='time in today_times'
           td
             span ng-repeat='tag in time.task.tags'
