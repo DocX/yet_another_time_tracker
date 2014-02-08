@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe Api::TimeByTagsController do
 
+  before :each do
+    @user = User.create(:name => 'testing user', email: 'test@user.lo', password: 'password')
+    sign_in :user, @user
+  end
+
   describe "GET 'today'" do
     it "returns http success" do
       get 'today'
@@ -11,9 +16,9 @@ describe Api::TimeByTagsController do
     it "should set tags of todays tasks" do
       Task.destroy_all
 
-      Task.create(name: 'test task 1', tags: ['tag1', 'tag2'], work_times: [TaskTime.create( start: DateTime.now.to_date + 7.hours, end: DateTime.now.to_date + 8.hours)])
-      Task.create(name: 'test task 2', tags: ['tag2', 'tag3'], work_times: [TaskTime.create( start: DateTime.now.to_date + 4.hours, end: DateTime.now.to_date + 5.hours)])
-      Task.create(name: 'test task 3', tags: ['tag1', 'tag3'], work_times: [TaskTime.create( start: DateTime.now.to_date + 2.hours, end: DateTime.now.to_date + 3.hours)])
+      Task.create(name: 'test task 1', tags: ['tag1', 'tag2'], work_times: [TaskTime.create( start: DateTime.now.to_date + 7.hours, end: DateTime.now.to_date + 8.hours, :user => @user)], :user => @user)
+      Task.create(name: 'test task 2', tags: ['tag2', 'tag3'], work_times: [TaskTime.create( start: DateTime.now.to_date + 4.hours, end: DateTime.now.to_date + 5.hours, :user => @user)], :user => @user)
+      Task.create(name: 'test task 3', tags: ['tag1', 'tag3'], work_times: [TaskTime.create( start: DateTime.now.to_date + 2.hours, end: DateTime.now.to_date + 3.hours, :user => @user)], :user => @user)
 
       get 'today'
       expect(assigns(:tags_times)).to satisfy{ |tags|
