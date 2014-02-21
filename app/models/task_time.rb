@@ -7,11 +7,15 @@ class TaskTime
   belongs_to :user, inverse_of: :work_times
 
   scope :today, ->() do
-    self.and(:start.lte => DateTime.now.to_date+1, :'$or' => [{:end.gte => DateTime.now.to_date},{ :end => nil}])
+    between(DateTime.now.to_date, DateTime.now.to_date + 1)
   end
 
   scope :not_running, ->() do
     where(:end.ne => nil)
+  end
+
+  scope :between, ->(from, to) do
+    self.and(:start.lte => to, :'$or' => [{:end.gte => from},{ :end => nil}])
   end
 
 end

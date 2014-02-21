@@ -7,7 +7,15 @@ Rails.application.routes.draw do
   get '/reports', to: 'ui/yatt#reports'
 
   namespace :api, :constraints => {format: 'json'} do
-    get "time_by_tags/today"
+    scope :time_by_tags, controller: :time_by_tags do
+      get "/today", action: :today
+      get "/yesterday", action: :yesterday
+      get "/this_week", action: :this_week
+      get "/last_week", action: :last_week
+      get "/this_month", action: :this_month
+      get "/last_month", action: :last_month
+      get "/from/:from/to/:to", action: :between
+    end
 
     scope :current_task, controller: :current_task do
       get '/', action: :show

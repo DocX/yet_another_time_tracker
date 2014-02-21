@@ -5,6 +5,10 @@ YATTApp.config ['$httpProvider', ($httpProvider) ->
   $httpProvider.defaults.headers.common["X-CSRF-TOKEN"] = authToken
   ]
 
+YATTApp.config ['$locationProvider', ($locationProvider) ->
+  $locationProvider.html5Mode(true).hashPrefix('!')
+  ]
+
 YATTApp.directive 'ngEnter', () ->
   (scope, element, attrs) ->
     element.bind "keydown keypress", (event) ->

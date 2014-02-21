@@ -1,5 +1,40 @@
-div.jumbotron
-  h1 Hey, this is just alpha version!
-  p We are working hard to make reports page done ;)
-  p
-    a href='/' Back to main view
+div ng-app='YATTApp' ng-controller='YATTController'
+  div ng-controller='ReportsController'
+    div.btn-group.pull-right.btn-group-lg
+      button.btn.btn-default.btn-lg ng-click='move_date(-1)'
+        span.glyphicon.glyphicon-chevron-left
+      div.btn-group.btn-group-lg
+        button.btn.btn-default.dropdown-toggle type="button" data-toggle="dropdown"
+          ' {{ current_period_name }}
+          span.caret
+        ul.dropdown-menu role='menu'
+          li
+            a href='/reports' Today
+          li
+            a href='/reports?period=yesterday' Yesterday
+          li.divider
+          li
+            a href='/reports?period=this_week' This week
+          li
+            a href='/reports?period=last_week' Last week
+          li.divider
+          li
+            a href='/reports?period=this_month' This month
+          li
+            a href='/reports?period=last_month' Last month
+      button.btn.btn-default.btn-lg ng-click='move_date(1)'
+        span.glyphicon.glyphicon-chevron-right
+
+    h1 Reports
+
+    table.table
+          thead
+            tr
+              th Tag
+              th.text-right Spent time
+          tr ng-repeat='tag_time in time_by_tags | orderBy:"seconds":true'
+            td
+              span.label.label-primary
+                | {{tag_time.tag}}
+            td.text-right
+              | {{tag_time.seconds + current_task_tag_seconds(tag_time.tag) | humanizeSeconds}}

@@ -8,3 +8,8 @@
   margin-left: auto;
   margin-right: auto;
 }
+
+.btn-lg > .glyphicon, .btn-group-lg > .btn > .glyphicon {
+  line-height: 0.9;
+  top:3px;
+}
