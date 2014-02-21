@@ -22,6 +22,9 @@ class Api::WorkTimesController < APIController
           json.estimated_seconds time.task.estimated_seconds
           json.tags time.task.tags
         end
+        json.task_elapsed_until_end_of_this  time.task
+          .work_times.where(:end.lte => time.end).reduce(0) {|sum,t| sum + ((t.end - t.start) * 86400).to_i }
+        json.is_last_of_task time.task.work_times.where(:end.gt => time.end).count == 0
       end
     end
   end

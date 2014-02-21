@@ -34,18 +34,24 @@ div ng-app='YATTApp' ng-controller='YATTController'
             th Task
             th.text-right Time
             th.text-right Duration / Estimation
-        tr ng-repeat='time in today_times'
+            th.text-right Actions
+        tr ng-repeat='time in today_times' ng-class='{"text-muted": !time.is_last_of_task}'
           td
             span ng-repeat='tag in time.task.tags'
               span.label.label-primary
                 | {{tag}}
               '
-            ' {{time.task.name}}
+            strong
+              ' {{time.task.name}}
           td.text-right
             | {{time.start | date:"shortTime"}} - {{time.end | date:"shortTime"}}
           td.text-right ng-class='{"text-success": elapsed_seconds(time) <= time.task.estimated_seconds, "text-danger": elapsed_seconds(time) > time.task.estimated_seconds }'
-            | {{ elapsed_seconds(time) | humanizeSeconds }} / {{time.task.estimated_seconds | humanizeSeconds }}
+            | + {{ elapsed_seconds(time) | humanizeSeconds }} (
+            strong
+              ' {{time.task_elapsed_until_end_of_this | humanizeSeconds }}
+            ' / {{time.task.estimated_seconds | humanizeSeconds }})
             '
+          td.text-right
             button.btn.btn-xs.btn-default ng-click='resume_task(time.task)' Continue
 
     div.col-md-3 ng-controller='TodayTagTimesController'

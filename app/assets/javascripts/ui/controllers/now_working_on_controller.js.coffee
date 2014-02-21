@@ -37,7 +37,6 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
     $scope.stop_current_task = () ->
       current_task.close () ->
         $scope.refresh_all()
-        $scope.current_task = {}
 
 
     refresh_time = () ->
