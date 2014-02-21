@@ -24,12 +24,12 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
       # minutes
       duration_seconds += task_match[9] * 60 if task_match[9]?
 
-      task_obj = new current_task
+      task_obj = new current_task.$resource
         tags: task_tags
         name: task_match[3]
         estimated_seconds: duration_seconds
 
-      task_obj.$save () ->
+      current_task.create task_obj, () ->
         $scope.refresh_all()
 
       $scope.new_task = ''
@@ -39,34 +39,22 @@ angular.module('YATTApp').controller 'NowWorkingOnController', [
         $scope.refresh_all()
         $scope.current_task = {}
 
-    set_current_task = () ->
-      if $scope.current_task.id?
-        current_task_elapsed_seconds = 0
-        for time in $scope.current_task.work_times
-          do (time) ->
-            start_value = new Date(time.start).valueOf()
-            end_value = if time.end is null then \
-              new Date().valueOf() else \
-              new Date(time.end).valueOf()
 
-            current_task_elapsed_seconds += (end_value - start_value)
-
-        $scope.current_task_elapsed_seconds = \
-          (current_task_elapsed_seconds / 1000)
-        $timeout(set_current_task, 1000)
-      else
-        $scope.current_task_elapsed_seconds  = null
-      $scope.current_task
+    refresh_time = () ->
+      if $scope.current_task.current()
+        #$scope.$apply()
+        $scope.current_task = $scope.current_task
+        $timeout(refresh_time, 1000)
 
     $scope.$on('yatt.refresh', () ->
       current_task.get (new_current_task) ->
-        $scope.current_task = new_current_task
-        set_current_task()
+        refresh_time()
       )
 
     $scope.new_task = ''
-    $scope.current_task = current_task.get () ->
-      set_current_task()
+    $scope.current_task = current_task
+    current_task.get (n) ->
+      refresh_time()
 
     $('button[data-toggle=popover]').popover()
 

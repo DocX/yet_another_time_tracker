@@ -9,19 +9,19 @@ div ng-app='YATTApp' ng-controller='YATTController'
         button.btn.btn-info.input-lg data-toggle='popover' data-placement='left' data-container="body" data-content='Enter what task you will do now and estimation of how long do you want to do it. Start with some tags marked by hashes to organize your task. After them, write brief description of your task. At the end put how much time you would like to spend on it. After pressing Enter key, you will see how are you going.'
           span.glyphicon.glyphicon-question-sign
 
-    div ng-if='current_task.id != null'
+    div ng-if='current_task.current() != null'
       h2 Now working on
       p
-        span ng-repeat='tag in current_task.tags'
+        span ng-repeat='tag in current_task.current().tags'
           span.label.label-primary
             | {{tag}}
           '
-        ' {{current_task.name}}
-        span.pull-right ng-class='{"text-warning": current_task.estimated_seconds - current_task_elapsed_seconds <= 0 }'
-          ' {{ current_task.estimated_seconds - current_task_elapsed_seconds > 0 ? 'Remaining' : 'Overdue'}}
+        ' {{current_task.current().name}}
+        span.pull-right ng-class='{"text-warning": current_task.current().estimated_seconds - current_task.current_total_time() <= 0 }'
+          ' {{ current_task.current().estimated_seconds - current_task.current_total_time() > 0 ? '' : 'Overdue'}}
           strong
-            | {{ current_task_elapsed_seconds - current_task.estimated_seconds | humanizeSeconds }}
-          '  / {{current_task.estimated_seconds | humanizeSeconds}}
+            | {{ current_task.current_total_time() | humanizeSeconds }}
+          '  / {{current_task.current().estimated_seconds | humanizeSeconds}}
           button.btn.btn-sm.btn-danger ng-click='stop_current_task()' Stop
 
 
@@ -60,6 +60,6 @@ div ng-app='YATTApp' ng-controller='YATTController'
             span.label.label-primary
               | {{tag_time.tag}}
           td.text-right
-            | {{tag_time.seconds | humanizeSeconds}}
+            | {{tag_time.seconds + current_task_tag_seconds(tag_time.tag) | humanizeSeconds}}
 
 

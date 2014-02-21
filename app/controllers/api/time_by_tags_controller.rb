@@ -7,7 +7,7 @@ class Api::TimeByTagsController < APIController
     @times.each do |time|
       time.task.tags.each do |tag|
         @tags_times[tag] ||= 0
-        @tags_times[tag] += ((time.end - time.start) * 86400).to_i
+        @tags_times[tag] += time.end.nil? ? 0 : ((time.end - time.start) * 86400).to_i
       end
     end
 
