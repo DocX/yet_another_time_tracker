@@ -45,7 +45,7 @@ div ng-app='YATTApp' ng-controller='YATTController'
               ' {{time.task.name}}
           td.text-right
             | {{time.start | date:"shortTime"}} - {{time.end | date:"shortTime"}}
-          td.text-right ng-class='{"text-success": elapsed_seconds(time) <= time.task.estimated_seconds, "text-danger": elapsed_seconds(time) > time.task.estimated_seconds }'
+          td.text-right ng-class='{"text-success": time.task_elapsed_until_end_of_this  <= time.task.estimated_seconds, "text-danger": time.task_elapsed_until_end_of_this  > time.task.estimated_seconds }'
             | + {{ elapsed_seconds(time) | humanizeSeconds }} (
             strong
               ' {{time.task_elapsed_until_end_of_this | humanizeSeconds }}

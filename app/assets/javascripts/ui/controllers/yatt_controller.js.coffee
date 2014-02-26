@@ -10,4 +10,7 @@ angular.module('YATTApp').controller 'YATTController', [
         $scope.refresh_all()
       )
 
+    $scope.elapsed_seconds = (time) ->
+      (new Date(time.end).valueOf() - new Date(time.start).valueOf()) / 1000
+
 ]

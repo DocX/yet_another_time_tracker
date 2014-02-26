@@ -26,6 +26,8 @@ Rails.application.routes.draw do
 
     scope :work_times, controller: :work_times do
       get '/today', action: :today
+      get '/from/:from/to/:to(/:page)', action: :between
+      delete '/:id', action: :destroy
     end
   end
 

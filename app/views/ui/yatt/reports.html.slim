@@ -27,7 +27,46 @@ div ng-app='YATTApp' ng-controller='YATTController'
 
     h1 Reports
 
-    table.table
+    div.row
+      div.col-sm-8
+        table.table
+          thead
+            tr
+              th Task
+              th Time
+              th Duration/Estimation
+              th Actions
+          tbody
+            tr ng-repeat='time in times.times'
+              td
+                span ng-repeat='tag in time.task.tags'
+                  span.label.label-primary
+                    | {{tag}}
+                  '
+                strong
+                  ' {{time.task.name}}
+              td.text-right
+                | {{time.start | date:"short"}} - {{time.end | date:"shortTime"}}
+              td.text-right ng-class='{"text-success": time.task_elapsed_until_end_of_this  <= time.task.estimated_seconds, "text-danger": time.task_elapsed_until_end_of_this  > time.task.estimated_seconds }'
+                | + {{ elapsed_seconds(time) | humanizeSeconds }} (
+                strong
+                  ' {{time.task_elapsed_until_end_of_this | humanizeSeconds }}
+                ' / {{time.task.estimated_seconds | humanizeSeconds }})
+                '
+              td.text-right
+                button.btn.btn-xs.btn-danger ng-click='remove_time(time)' Remove
+
+        ul.pagination
+          li
+            a href='#' ng-click='go_to_times_page(times.current_page - 1)' &laquo;
+          li ng-repeat='page in times_pages(times)' ng-class='{active: page - 1 == times.current_page}'
+            a href='#' ng-click='go_to_times_page(page-1)'
+              ' {{page}}
+          li
+            a href='#' ng-click='go_to_times_page(times.current_page + 1)' &raquo;
+
+      div.col-sm-4
+        table.table
           thead
             tr
               th Tag
@@ -38,3 +77,8 @@ div ng-app='YATTApp' ng-controller='YATTController'
                 | {{tag_time.tag}}
             td.text-right
               | {{tag_time.seconds + current_task_tag_seconds(tag_time.tag) | humanizeSeconds}}
+          tr
+            td
+              strong Total
+            td.text-right
+              | {{ sum_time(time_by_tags) | humanizeSeconds }}

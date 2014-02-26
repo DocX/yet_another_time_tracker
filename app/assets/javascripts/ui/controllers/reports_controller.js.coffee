@@ -1,8 +1,8 @@
 #= require sugar
 
 angular.module('YATTApp').controller 'ReportsController', [
-  '$scope', '$timeout', 'time_by_tags', '$location'
-  ($scope, $timeout, time_by_tags, $location) ->
+  '$scope', '$timeout', 'time_by_tags', 'work_times', '$location'
+  ($scope, $timeout, time_by_tags, work_times, $location) ->
 
     load = () ->
       period = null
@@ -47,12 +47,18 @@ angular.module('YATTApp').controller 'ReportsController', [
           $scope.current_period_name = $scope.start.format('short')
         else
           if diff == 7
-            $scope.current_period_name = $scope.start.format('short') + ' - ' + $scope.end.format('short')
+            $scope.current_period_name = $scope.start.format('short') + \
+            ' - ' + $scope.end.format('short')
           else
             $scope.current_period_name = $scope.start.format('{Month} {yyyy}')
 
 
       $scope.time_by_tags = time_by_tags.between({
+        from: $scope.start.format(Date.ISO8601_DATE),
+        to: $scope.end.format(Date.ISO8601_DATE)
+        })
+
+      $scope.times = work_times.between({
         from: $scope.start.format(Date.ISO8601_DATE),
         to: $scope.end.format(Date.ISO8601_DATE)
         })
@@ -71,6 +77,34 @@ angular.module('YATTApp').controller 'ReportsController', [
           $scope.end.addMonths(1 * num)
 
       $location.search({from: $scope.start.toJSON(), to: $scope.end.toJSON()})
+
+    $scope.go_to_times_page = (page) ->
+      return if page < 0 or page >= $scope.times.pages
+
+      work_times.between({
+        from: $scope.start.format(Date.ISO8601_DATE),
+        to: $scope.end.format(Date.ISO8601_DATE),
+        page: page
+        }, (times) ->
+          $scope.times = times
+        )
+
+    $scope.times_pages = (times) ->
+      pages = []
+      page = 0
+      while page < times.pages
+        page += 1
+        pages.push(page)
+
+      pages
+
+    $scope.remove_time = (time) ->
+      work_times.delete({id: time.id}, load)
+
+    $scope.sum_time = (time_by_tags) ->
+      sum = 0
+      sum += time.seconds for time in time_by_tags
+      sum
 
     $scope.$on('$locationChangeSuccess', load)
     load()
